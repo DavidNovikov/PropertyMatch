@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:property_match/models/info_held_by_api_model.dart';
 import 'package:property_match/models/info_held_by_user_model.dart';
 import 'package:property_match/models/sub_menu_utils.dart';
 import 'package:property_match/models/tab_info.dart';
@@ -19,6 +20,8 @@ class SubMenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final InfoHeldByUserModel infoHeldByUserModel =
         Provider.of<InfoHeldByUserModel>(context, listen: true);
+    final InfoHeldByApiModel infoHeldByApiModel =
+        Provider.of<InfoHeldByApiModel>(context, listen: true);
     return Material(
       child: Column(
         children: [
@@ -37,7 +40,7 @@ class SubMenuScreen extends StatelessWidget {
           ),
           Column(
             children: subMenuType == SubMenuType.search
-                ? searchItems()
+                ? searchItems(infoHeldByApiModel)
                 : viewItems(infoHeldByUserModel),
           )
         ],
@@ -45,27 +48,21 @@ class SubMenuScreen extends StatelessWidget {
     );
   }
 
-  List<Widget> searchItems() {
-    return [
-      ListItem(
-        id: 'Cleveland',
-        bgColor: Colors.grey,
-        subMenuType: subMenuType,
-        tabInfo: TabInfo('Cleveland', 4.0),
-      ),
-      ListItem(
-        id: 'Columbus',
-        bgColor: Colors.grey,
-        subMenuType: subMenuType,
-        tabInfo: TabInfo('Columbus', 4.0),
-      ),
-      ListItem(
-        id: 'Toledo',
-        bgColor: Colors.grey,
-        subMenuType: subMenuType,
-        tabInfo: TabInfo('Toledo', 4.0),
-      ),
-    ];
+  List<Widget> searchItems(InfoHeldByApiModel infoHeldByApiModel) {
+    List<Widget> list = List<Widget>();
+    infoHeldByApiModel.infoMap.forEach(
+      (key, value) {
+        list.add(
+          ListItem(
+            id: key,
+            bgColor: Colors.grey,
+            subMenuType: subMenuType,
+            tabInfo: TabInfo(key, value.info),
+          ),
+        );
+      },
+    );
+    return list;
   }
 
   List<Widget> viewItems(InfoHeldByUserModel infoHeldByUserModel) {
@@ -77,7 +74,7 @@ class SubMenuScreen extends StatelessWidget {
             id: key,
             bgColor: Colors.grey,
             subMenuType: subMenuType,
-            tabInfo: TabInfo(key, 4.0),
+            tabInfo: TabInfo(key, value.info),
           ),
         );
       },

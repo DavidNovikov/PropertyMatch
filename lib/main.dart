@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:property_match/models/info_held_by_api_model.dart';
 import 'package:property_match/models/info_held_by_user_model.dart';
 import 'package:property_match/screens/main_screen.dart';
 
@@ -8,6 +9,9 @@ void main() {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(
       create: (context) => InfoHeldByUserModel(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => InfoHeldByApiModel(),
     ),
   ], child: MyApp()));
 }

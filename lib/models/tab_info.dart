@@ -1,8 +1,8 @@
 class TabInfo {
   TabInfo(
-    this.name,
-    this.crimeRateRelativeToState,
+    this.id,
+    this.info,
   );
-  final String name;
-  final double crimeRateRelativeToState;
+  final String id;
+  final Map<String, String> info;
 }

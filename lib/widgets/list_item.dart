@@ -4,6 +4,8 @@ import 'package:property_match/models/sub_menu_utils.dart';
 import 'package:property_match/models/tab_info.dart';
 import 'package:provider/provider.dart';
 
+import 'info_popup.dart';
+
 class ListItem extends StatelessWidget {
   const ListItem({
     Key key,
@@ -23,6 +25,14 @@ class ListItem extends StatelessWidget {
         Provider.of<InfoHeldByUserModel>(context, listen: true);
     final bool isSearch = subMenuType == SubMenuType.search;
 
+    void addToUserMap(String id, TabInfo tabInfo) {
+      infoHeldByUserModel.addToUserMap(id, tabInfo);
+    }
+
+    void removeItemFromMap(String id) {
+      infoHeldByUserModel.removeItemFromMap(id);
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -38,19 +48,24 @@ class ListItem extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Text(
-                  id,
-                  style: TextStyle(fontSize: 25, color: Colors.grey[900]),
+            GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    id,
+                    style: TextStyle(fontSize: 25, color: Colors.grey[900]),
+                  ),
                 ),
+              ),
+              onTap: () => showDialog(
+                context: context,
+                builder: (_) => InfoPopUp(id: id, subMenuType: subMenuType),
               ),
             ),
             GestureDetector(
-              onTap: () => isSearch
-                  ? infoHeldByUserModel.addToUserMap(id, tabInfo)
-                  : infoHeldByUserModel.removeItemFromMap(id),
+              onTap: () =>
+                  isSearch ? addToUserMap(id, tabInfo) : removeItemFromMap(id),
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(isSearch ? Icons.add_rounded : Icons.remove),
