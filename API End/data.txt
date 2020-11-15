@@ -1,0 +1,11 @@
+[
+  {
+    "annual property crime data cleared per capita": "1240 cases", 
+    "annual property crime data reported per capita": "29974 cases", 
+    "annual violent crime data cleared per capita": "795 cases", 
+    "annual violent crime data reported per capita": "5350 cases", 
+    "area": "Columbus", 
+    "damage to property due to storm events in 2019": "178.8K cases", 
+    "id": 1
+  }
+]
