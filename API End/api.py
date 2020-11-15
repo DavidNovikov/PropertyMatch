@@ -8,7 +8,7 @@ app.config["DEBUG"] = True
 properties = [
     {'id': 0,
      'area': 'Cleveland',
-     'damage to property due to storm events in 2019: '25.719M cases',
+     'damage to property due to storm events in 2019': '25.719M cases',
      'annual violent crime data reported per capita': '6203 cases',
      'annual violent crime data cleared per capita': '961 cases',
      'annual property crime data reported per capita': '17057 cases',
@@ -20,7 +20,7 @@ properties = [
      'annual violent crime data reported per capita': '5350 cases',
      'annual violent crime data cleared per capita': '795 cases',
      'annual property crime data reported per capita': '29974 cases',
-     'annual property crime data cleared per capita': '1240 cases,
+     'annual property crime data cleared per capita': '1240 cases',
      },
     {'id': 2,
      'area': 'Cincinnati',
