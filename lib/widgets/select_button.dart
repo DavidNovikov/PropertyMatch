@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+/*
+This class lets you select which submenu you want to navigate to
+*/
 class SelectButton extends StatelessWidget {
   const SelectButton({
     Key key,

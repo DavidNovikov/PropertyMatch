@@ -6,6 +6,9 @@ import 'package:property_match/models/sub_menu_utils.dart';
 import 'package:property_match/extensions/capitalize.dart';
 import 'package:provider/provider.dart';
 
+/*
+this class holds a popup for information on an area, it displays different information based on which submenu its from
+ */
 class InfoPopUp extends StatelessWidget {
   InfoPopUp({this.id, this.subMenuType});
   final SubMenuType subMenuType;

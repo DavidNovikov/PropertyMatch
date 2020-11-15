@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+/*
+This class labels the top of the page in a submenu
+*/
 class ScreenLabel extends StatelessWidget {
   const ScreenLabel({Key key, this.label, this.bgColor}) : super(key: key);
   final String label;
