@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:property_match/models/info_held_by_user_model.dart';
 import 'package:property_match/models/sub_menu_utils.dart';
@@ -23,19 +24,47 @@ class ListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final InfoHeldByUserModel infoHeldByUserModel =
         Provider.of<InfoHeldByUserModel>(context, listen: true);
-    final bool isSearch = subMenuType == SubMenuType.search;
 
     void addToUserMap(String id, TabInfo tabInfo) {
       infoHeldByUserModel.addToUserMap(id, tabInfo);
+    }
+
+    void switchIsInCompareMap(String id) {
+      if (infoHeldByUserModel.compareMap.length < 2)
+        infoHeldByUserModel.switchInToOrOutOfCompareMap(id);
+      if (infoHeldByUserModel.compareMap.length == 2) {
+        showDialog(
+          context: context,
+          builder: (_) => InfoPopUp(subMenuType: subMenuType),
+        );
+      }
     }
 
     void removeItemFromMap(String id) {
       infoHeldByUserModel.removeItemFromMap(id);
     }
 
+    IconData iconForMapType([String id]) {
+      switch (subMenuType) {
+        case SubMenuType.search:
+          return Icons.add_rounded;
+          break;
+        case SubMenuType.view:
+          return Icons.remove_rounded;
+          break;
+        case SubMenuType.compare:
+          return infoHeldByUserModel.compareMap.containsKey(id)
+              ? Icons.add_box
+              : Icons.add_box_outlined;
+          break;
+        default:
+          return Icons.error;
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
+      child: Ink(
         height: 50,
         width: 300,
         decoration: BoxDecoration(
@@ -63,12 +92,35 @@ class ListItem extends StatelessWidget {
                 builder: (_) => InfoPopUp(id: id, subMenuType: subMenuType),
               ),
             ),
-            GestureDetector(
-              onTap: () =>
-                  isSearch ? addToUserMap(id, tabInfo) : removeItemFromMap(id),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Icon(isSearch ? Icons.add_rounded : Icons.remove),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: InkWell(
+                onTap: () {
+                  switch (subMenuType) {
+                    case SubMenuType.search:
+                      addToUserMap(id, tabInfo);
+                      break;
+                    case SubMenuType.view:
+                      removeItemFromMap(id);
+                      break;
+                    case SubMenuType.compare:
+                      switchIsInCompareMap(id);
+                      break;
+                    default:
+                  }
+                },
+                child: Icon(
+                  iconForMapType(
+                      subMenuType == SubMenuType.compare ? id : null),
+                ),
+                highlightColor: Colors.grey[700],
+                customBorder: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      8.0,
+                    ),
+                  ),
+                ),
               ),
             )
           ],
