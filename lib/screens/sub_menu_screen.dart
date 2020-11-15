@@ -18,6 +18,7 @@ class SubMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isSearch = subMenuType == SubMenuType.search;
     final InfoHeldByUserModel infoHeldByUserModel =
         Provider.of<InfoHeldByUserModel>(context, listen: true);
     final InfoHeldByApiModel infoHeldByApiModel =
@@ -31,18 +32,49 @@ class SubMenuScreen extends StatelessWidget {
               CustomBackButton(),
               Padding(
                 padding: const EdgeInsets.only(right: 40.0),
-                child: ScreenLabel(
-                  label: SubMenuUtils.namesOfMenus[subMenuType],
-                  bgColor: Colors.blue[600],
+                child: Container(
+                  color: Colors.white,
+                  child: ScreenLabel(
+                    label: SubMenuUtils.namesOfMenus[subMenuType],
+                    bgColor: Colors.blue[600],
+                  ),
                 ),
               ),
             ],
           ),
-          Column(
-            children: subMenuType == SubMenuType.search
-                ? searchItems(infoHeldByApiModel)
-                : viewItems(infoHeldByUserModel),
-          )
+          Container(
+            width: 300,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                instructionText(
+                    subMenuType: subMenuType,
+                    isEmpty: !isSearch && infoHeldByUserModel.infoMap.isEmpty),
+              ),
+            ),
+          ),
+          Container(
+            width: 300,
+            height: 450,
+            child: NotificationListener<OverscrollIndicatorNotification>(
+              onNotification: (OverscrollIndicatorNotification overscroll) {
+                overscroll.disallowGlow();
+                return true;
+              },
+              child: ListView.builder(
+                itemCount: isSearch
+                    ? searchItems(infoHeldByApiModel).length
+                    : viewItems(infoHeldByUserModel).length,
+                itemBuilder: (BuildContext context, int index) {
+                  return isSearch
+                      ? searchItems(infoHeldByApiModel)[index]
+                      : viewItems(infoHeldByUserModel)[index];
+                },
+              ),
+            ),
+          ),
+          Container(width: 300, height: 50, color: Colors.white)
         ],
       ),
     );
@@ -80,5 +112,22 @@ class SubMenuScreen extends StatelessWidget {
       },
     );
     return list;
+  }
+
+  String instructionText({SubMenuType subMenuType, bool isEmpty}) {
+    if (isEmpty) return 'Please go to the view screen to pick areas';
+    switch (subMenuType) {
+      case SubMenuType.search:
+        return 'Please select the areas you\'re interested in\nTap on an area to view its details';
+        break;
+      case SubMenuType.view:
+        return 'Tap on an area to view its details';
+        break;
+      case SubMenuType.compare:
+        return 'Please select twe areas to compare\n Tap on an area to view it';
+        break;
+      default:
+        return '';
+    }
   }
 }
