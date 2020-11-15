@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 
 import 'info_popup.dart';
 
+/*
+this is a tab on a list, based on what sub menu it is in it looks different and preforms different actions when clicked
+*/
 class ListItem extends StatelessWidget {
   const ListItem({
     Key key,
